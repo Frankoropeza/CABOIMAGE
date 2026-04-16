@@ -1,0 +1,57 @@
+{
+  "category": "details",
+  "title": "Wedding Details Photography",
+  "description": "Close-up artistry — rings, florals, invitations and all the beautiful details that make each wedding unique and unforgettable.",
+  "coverImage": "/images/gallery/weddings/details/wedding-details-los-cabos-01.avif",
+  "order": 2,
+  "images": [
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-01.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-02.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-03.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-04.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-05.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-06.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-07.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    },
+    {
+      "src": "/images/gallery/weddings/details/wedding-details-los-cabos-08.avif",
+      "alt": "Wedding details photography Los Cabos — rings, florals, décor by Cabo Image",
+      "width": 1202,
+      "height": 575
+    }
+  ]
+}

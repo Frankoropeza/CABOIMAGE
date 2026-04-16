@@ -1,0 +1,212 @@
+---
+// ContactForm.astro — Intelligent inquiry form
+// Supports: Netlify Forms (default), Formspree, or custom endpoint
+
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  successMessage?: string;
+  formId?: string;
+}
+
+const {
+  title = 'Start the Conversation',
+  subtitle = 'Tell me about your project and I will get back to you within 24 hours.',
+  successMessage = 'Thank you! I will be in touch within 24 hours.',
+  formId = 'contact',
+} = Astro.props;
+
+const formspreeId = import.meta.env.PUBLIC_FORMSPREE_ID;
+const formAction  = formspreeId ? `https://formspree.io/f/${formspreeId}` : undefined;
+---
+
+<div class="max-w-2xl mx-auto">
+  {title && (
+    <div class="mb-10">
+      <h2 class="font-serif text-display-sm text-cabo-white mb-3">{title}</h2>
+      {subtitle && (
+        <p class="text-cabo-muted font-sans leading-relaxed">{subtitle}</p>
+      )}
+    </div>
+  )}
+
+  <!-- Success message (hidden by default) -->
+  <div
+    id={`${formId}-success`}
+    class="hidden p-6 border border-cabo-success/30 bg-cabo-success/10 text-cabo-success font-sans text-sm mb-8 rounded"
+    role="alert"
+  >
+    {successMessage}
+  </div>
+
+  <form
+    id={formId}
+    method="POST"
+    action={formAction}
+    data-netlify={!formAction ? 'true' : undefined}
+    name={!formAction ? formId : undefined}
+    netlify-honeypot={!formAction ? 'bot-field' : undefined}
+    class="space-y-6"
+    novalidate
+  >
+    <!-- Netlify honeypot -->
+    {!formAction && (
+      <input type="hidden" name="bot-field" />
+      <input type="hidden" name="form-name" value={formId} />
+    )}
+
+    <!-- Name + Email row -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="field-group">
+        <label for="name" class="field-label">Your Name *</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          autocomplete="name"
+          placeholder="Sarah & James"
+          class="field-input"
+        />
+      </div>
+      <div class="field-group">
+        <label for="email" class="field-label">Email Address *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="hello@example.com"
+          class="field-input"
+        />
+      </div>
+    </div>
+
+    <!-- Service type -->
+    <div class="field-group">
+      <label for="service" class="field-label">Type of Service *</label>
+      <select id="service" name="service" required class="field-input">
+        <option value="" disabled selected>Select a service...</option>
+        <option value="wedding-photography">Wedding Photography</option>
+        <option value="portrait-photography">Portrait Photography</option>
+        <option value="real-estate-photography">Real Estate Photography</option>
+        <option value="architecture-photography">Architecture Photography</option>
+        <option value="fine-art-photography">Fine Art Photography</option>
+        <option value="advertising-photography">Advertising Photography</option>
+        <option value="commercial-travel-photography">Commercial Travel Photography</option>
+        <option value="other">Other / Not Sure</option>
+      </select>
+    </div>
+
+    <!-- Date -->
+    <div class="field-group">
+      <label for="date" class="field-label">Event / Shoot Date</label>
+      <input
+        type="date"
+        id="date"
+        name="date"
+        class="field-input"
+      />
+    </div>
+
+    <!-- Venue / Location -->
+    <div class="field-group">
+      <label for="venue" class="field-label">Venue or Location</label>
+      <input
+        type="text"
+        id="venue"
+        name="venue"
+        placeholder="e.g., One&Only Palmilla, Cabo San Lucas"
+        class="field-input"
+      />
+    </div>
+
+    <!-- Message -->
+    <div class="field-group">
+      <label for="message" class="field-label">Tell Me About Your Vision *</label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        rows="5"
+        placeholder="Share any details about your event, style preferences, or questions you have..."
+        class="field-input resize-none"
+      ></textarea>
+    </div>
+
+    <!-- How did you find us -->
+    <div class="field-group">
+      <label for="source" class="field-label">How Did You Find Cabo Image?</label>
+      <select id="source" name="source" class="field-input">
+        <option value="" disabled selected>Select one...</option>
+        <option value="google">Google Search</option>
+        <option value="instagram">Instagram</option>
+        <option value="wedding-planner">Wedding Planner Referral</option>
+        <option value="friend">Friend or Family</option>
+        <option value="venue">Venue Referral</option>
+        <option value="the-knot">The Knot</option>
+        <option value="weddingwire">WeddingWire</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <!-- Submit -->
+    <div class="pt-2">
+      <button
+        type="submit"
+        class="w-full sm:w-auto px-10 py-4 bg-cabo-gold text-cabo-black text-sm tracking-widest uppercase font-sans font-medium hover:bg-cabo-gold-light transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cabo-gold focus:ring-offset-2 focus:ring-offset-cabo-black"
+      >
+        Send My Inquiry
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .field-group {
+    @apply flex flex-col gap-2;
+  }
+
+  .field-label {
+    @apply text-xs tracking-widest uppercase font-sans text-cabo-muted;
+  }
+
+  .field-input {
+    @apply w-full bg-cabo-surface border border-cabo-border text-cabo-white font-sans text-sm px-4 py-3
+           placeholder:text-cabo-subtle
+           focus:outline-none focus:border-cabo-gold focus:ring-1 focus:ring-cabo-gold
+           transition-colors duration-200;
+  }
+
+  select.field-input option {
+    @apply bg-cabo-surface;
+  }
+</style>
+
+<script>
+  // Basic client-side form handling for non-Netlify forms
+  const form = document.getElementById('contact') as HTMLFormElement | null;
+  const success = document.getElementById('contact-success');
+
+  if (form && form.action && form.action.includes('formspree')) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (response.ok) {
+          form.reset();
+          success?.classList.remove('hidden');
+          success?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+      }
+    });
+  }
+</script>

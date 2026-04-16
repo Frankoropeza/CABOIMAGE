@@ -1,0 +1,162 @@
+---
+// Footer.astro — Site footer
+
+const currentYear = new Date().getFullYear();
+
+const serviceLinks = [
+  { href: '/services/wedding-photography',       label: 'Wedding Photography'         },
+  { href: '/services/portrait-photography',      label: 'Portrait Photography'        },
+  { href: '/services/real-estate-photography',   label: 'Real Estate Photography'     },
+  { href: '/services/architecture-photography',  label: 'Architecture Photography'    },
+  { href: '/services/fine-art-photography',      label: 'Fine Art Photography'        },
+  { href: '/services/advertising-photography',   label: 'Advertising Photography'     },
+  { href: '/services/commercial-travel-photography', label: 'Commercial Travel'       },
+];
+
+const galleryLinks = [
+  { href: '/gallery/weddings',          label: 'Weddings'       },
+  { href: '/gallery/weddings/details',  label: 'Details'        },
+  { href: '/gallery/weddings/ceremony', label: 'Ceremony'       },
+  { href: '/gallery/weddings/portraits',label: 'Portraits'      },
+  { href: '/gallery',                   label: 'All Galleries'  },
+];
+
+const companyLinks = [
+  { href: '/about',   label: 'About Miguel' },
+  { href: '/blog',    label: 'Journal'      },
+  { href: '/contact', label: 'Contact'      },
+];
+---
+
+<footer class="bg-cabo-surface border-t border-cabo-border mt-24">
+
+  <!-- Main Footer Grid -->
+  <div class="max-w-site mx-auto px-6 lg:px-10 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+
+      <!-- Brand Column -->
+      <div class="lg:col-span-1">
+        <a href="/" class="inline-block mb-6">
+          <span class="font-serif text-2xl text-cabo-white">Cabo Image</span>
+          <p class="text-cabo-subtle text-xs tracking-widest uppercase mt-1 font-sans">
+            by Miguel Ventura
+          </p>
+        </a>
+        <p class="text-cabo-muted text-sm leading-relaxed font-sans mb-6">
+          Professional photography in Los Cabos, Baja California Sur, Mexico.
+          Weddings, portraits, real estate, and commercial photography.
+        </p>
+        <!-- Social Links -->
+        <div class="flex items-center gap-4">
+          <a
+            href="https://instagram.com/caboimage"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-cabo-subtle hover:text-cabo-gold transition-colors"
+            aria-label="Follow Cabo Image on Instagram"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a
+            href="https://facebook.com/caboimage"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-cabo-subtle hover:text-cabo-gold transition-colors"
+            aria-label="Follow Cabo Image on Facebook"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Services Column -->
+      <div>
+        <h3 class="text-xs tracking-widest uppercase font-sans text-cabo-subtle mb-6">
+          Services
+        </h3>
+        <ul class="space-y-3">
+          {serviceLinks.map(link => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-cabo-muted hover:text-cabo-gold transition-colors font-sans"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Gallery Column -->
+      <div>
+        <h3 class="text-xs tracking-widest uppercase font-sans text-cabo-subtle mb-6">
+          Gallery
+        </h3>
+        <ul class="space-y-3">
+          {galleryLinks.map(link => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-cabo-muted hover:text-cabo-gold transition-colors font-sans"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Company + Contact Column -->
+      <div>
+        <h3 class="text-xs tracking-widest uppercase font-sans text-cabo-subtle mb-6">
+          Company
+        </h3>
+        <ul class="space-y-3 mb-8">
+          {companyLinks.map(link => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-cabo-muted hover:text-cabo-gold transition-colors font-sans"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <h3 class="text-xs tracking-widest uppercase font-sans text-cabo-subtle mb-4">
+          Location
+        </h3>
+        <address class="not-italic text-sm text-cabo-muted font-sans space-y-1">
+          <p>Los Cabos</p>
+          <p>Baja California Sur, México</p>
+          <a
+            href="mailto:miguel@caboimage.com"
+            class="block mt-2 text-cabo-gold hover:text-cabo-gold-light transition-colors"
+          >
+            miguel@caboimage.com
+          </a>
+        </address>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="border-t border-cabo-border">
+    <div class="max-w-site mx-auto px-6 lg:px-10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-cabo-subtle text-xs font-sans tracking-wide">
+        &copy; {currentYear} Cabo Image by Miguel Ventura. All rights reserved.
+      </p>
+      <p class="text-cabo-subtle text-xs font-sans">
+        Los Cabos, Baja California Sur, México
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,50 @@
+---
+// blog/index.astro — Blog / Journal index
+
+import PageLayout from '../../layouts/PageLayout.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<PageLayout
+  title="Journal | Cabo Image — Los Cabos Photography"
+  description="Photography tips, venue guides, and wedding planning advice from a professional photographer based in Los Cabos, Mexico. Learn about the best venues, seasons, and how to plan your destination wedding."
+  headerTransparent={false}
+>
+
+  <div class="pt-28 pb-20 container-site">
+
+    <SectionHeader
+      eyebrow="Journal"
+      title="Notes from Los Cabos"
+      subtitle="Venue guides, planning advice, and stories from behind the lens."
+      align="center"
+      class="mb-16"
+    />
+
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map(post => (
+          <BlogCard
+            title={post.data.title}
+            description={post.data.description}
+            slug={post.slug}
+            pubDate={post.data.pubDate}
+            heroImage={post.data.heroImage}
+            heroImageAlt={post.data.heroImageAlt}
+            tags={post.data.tags}
+            category={post.data.category}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-cabo-muted font-sans">No posts yet — check back soon.</p>
+    )}
+
+  </div>
+
+</PageLayout>

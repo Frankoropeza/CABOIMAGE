@@ -1,0 +1,81 @@
+---
+// gallery/index.astro — Gallery hub page
+
+import PageLayout from '../../layouts/PageLayout.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+const galleryCategories = [
+  {
+    slug:        'weddings',
+    title:       'Wedding Photography',
+    description: 'Complete wedding stories — details, ceremony, portraits, and celebration.',
+    cover:       '/images/gallery/weddings/cover.jpg',
+    count:       8,
+  },
+  {
+    slug:        'portraits',
+    title:       'Portrait Photography',
+    description: 'Personal, family, and lifestyle sessions in Los Cabos.',
+    cover:       '/images/gallery/portraits/cover.jpg',
+    count:       1,
+  },
+  {
+    slug:        'real-estate',
+    title:       'Real Estate & Architecture',
+    description: 'Luxury properties and architectural photography in Los Cabos.',
+    cover:       '/images/gallery/real-estate/cover.jpg',
+    count:       1,
+  },
+  {
+    slug:        'fine-art',
+    title:       'Fine Art',
+    description: 'Personal artistic work from the landscapes of Baja California Sur.',
+    cover:       '/images/gallery/fine-art/cover.jpg',
+    count:       1,
+  },
+];
+---
+
+<PageLayout
+  title="Gallery | Cabo Image — Photography Portfolio"
+  description="Browse the photography portfolio of Cabo Image — wedding photography, portrait sessions, real estate, and fine art work from Los Cabos, Baja California Sur, Mexico."
+  headerTransparent={false}
+>
+
+  <div class="pt-28 pb-20 container-site">
+
+    <SectionHeader
+      eyebrow="Portfolio"
+      title="The Work"
+      subtitle="A selection of photography from Los Cabos and beyond."
+      align="center"
+      class="mb-16"
+    />
+
+    <!-- Category Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {galleryCategories.map(cat => (
+        <a
+          href={`/gallery/${cat.slug}`}
+          class="group relative overflow-hidden bg-cabo-card border border-cabo-border hover:border-cabo-gold/30 transition-all duration-500 aspect-photo"
+        >
+          <img
+            src={cat.cover}
+            alt={cat.title}
+            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-cabo-black via-cabo-black/30 to-transparent" />
+          <div class="absolute bottom-0 left-0 right-0 p-8">
+            <h2 class="font-serif text-2xl text-cabo-white mb-2 group-hover:text-cabo-gold transition-colors">
+              {cat.title}
+            </h2>
+            <p class="text-cabo-muted font-sans text-sm">{cat.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+
+</PageLayout>

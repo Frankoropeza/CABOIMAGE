@@ -1,0 +1,182 @@
+---
+// Header.astro — Site navigation header
+// Supports transparent mode for pages with hero images
+
+export interface Props {
+  transparent?: boolean;
+}
+
+const { transparent = false } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/services/wedding-photography', label: 'Weddings' },
+  { href: '/gallery',                      label: 'Gallery'  },
+  { href: '/services',                      label: 'Services' },
+  { href: '/blog',                          label: 'Journal'  },
+  { href: '/about',                         label: 'About'    },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header
+  id="site-header"
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+    transparent
+      ? 'bg-transparent'
+      : 'bg-cabo-black/95 backdrop-blur-md border-b border-cabo-border',
+  ]}
+  data-transparent={transparent}
+>
+  <div class="max-w-site mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between h-20">
+
+      <!-- Logo -->
+      <a
+        href="/"
+        class="flex items-center gap-3 group"
+        aria-label="Cabo Image — Home"
+      >
+        <span class="font-serif text-xl tracking-wider text-cabo-white group-hover:text-cabo-gold transition-colors duration-300">
+          Cabo Image
+        </span>
+        <span class="hidden sm:block text-cabo-subtle text-xs tracking-widest uppercase font-sans border-l border-cabo-border pl-3">
+          by Miguel Ventura
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class:list={[
+              'text-sm tracking-wider uppercase font-sans transition-colors duration-200',
+              isActive(link.href)
+                ? 'text-cabo-gold'
+                : 'text-cabo-muted hover:text-cabo-white',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- CTA + Mobile Toggle -->
+      <div class="flex items-center gap-4">
+        <!-- Desktop CTA -->
+        <a
+          href="/contact"
+          class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-widest uppercase font-sans border border-cabo-gold text-cabo-gold hover:bg-cabo-gold hover:text-cabo-black transition-all duration-300"
+        >
+          Book a Consultation
+        </a>
+
+        <!-- Mobile menu toggle -->
+        <button
+          id="mobile-menu-toggle"
+          class="md:hidden flex flex-col gap-1.5 p-2 text-cabo-white"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span class="block w-6 h-px bg-current transition-transform duration-300" id="burger-top"></span>
+          <span class="block w-6 h-px bg-current transition-opacity duration-300" id="burger-mid"></span>
+          <span class="block w-6 h-px bg-current transition-transform duration-300" id="burger-bot"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden bg-cabo-black border-t border-cabo-border"
+    aria-label="Mobile navigation"
+  >
+    <nav class="max-w-site mx-auto px-6 py-8 flex flex-col gap-6">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'text-lg font-sans tracking-wider uppercase transition-colors',
+            isActive(link.href)
+              ? 'text-cabo-gold'
+              : 'text-cabo-muted hover:text-cabo-white',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center mt-2 px-6 py-3 text-sm tracking-widest uppercase font-sans border border-cabo-gold text-cabo-gold hover:bg-cabo-gold hover:text-cabo-black transition-all duration-300"
+      >
+        Book a Consultation
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // ── Scroll behavior: make transparent header solid on scroll ──
+  const header      = document.getElementById('site-header')!;
+  const isTransparent = header.dataset.transparent === 'true';
+
+  if (isTransparent) {
+    const updateHeader = () => {
+      if (window.scrollY > 60) {
+        header.classList.add('bg-cabo-black/95', 'backdrop-blur-md', 'border-b', 'border-cabo-border');
+        header.classList.remove('bg-transparent');
+      } else {
+        header.classList.remove('bg-cabo-black/95', 'backdrop-blur-md', 'border-b', 'border-cabo-border');
+        header.classList.add('bg-transparent');
+      }
+    };
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
+  }
+
+  // ── Mobile menu toggle ──
+  const toggle  = document.getElementById('mobile-menu-toggle')!;
+  const menu    = document.getElementById('mobile-menu')!;
+  const top     = document.getElementById('burger-top')!;
+  const mid     = document.getElementById('burger-mid')!;
+  const bot     = document.getElementById('burger-bot')!;
+
+  let open = false;
+
+  toggle.addEventListener('click', () => {
+    open = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    menu.classList.toggle('hidden', !open);
+
+    if (open) {
+      top.style.transform = 'translateY(6px) rotate(45deg)';
+      mid.style.opacity   = '0';
+      bot.style.transform = 'translateY(-6px) rotate(-45deg)';
+    } else {
+      top.style.transform = '';
+      mid.style.opacity   = '';
+      bot.style.transform = '';
+    }
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (open && !header.contains(e.target as Node)) {
+      open = false;
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.classList.add('hidden');
+      top.style.transform = '';
+      mid.style.opacity   = '';
+      bot.style.transform = '';
+    }
+  });
+</script>

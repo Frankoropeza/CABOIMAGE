@@ -1,0 +1,140 @@
+---
+// BaseLayout.astro — HTML shell, SEO, fonts, global scripts
+// Every other layout wraps this one.
+
+import '../styles/global.css';
+import { SEO } from 'astro-seo';
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article' | 'profile';
+  canonicalURL?: string;
+  noIndex?: boolean;
+  schema?: object;
+}
+
+const {
+  title,
+  description,
+  image = '/images/og-default.jpg',
+  imageAlt = 'Cabo Image — Professional Photography in Los Cabos, Mexico',
+  type = 'website',
+  canonicalURL = Astro.url.href,
+  noIndex = false,
+  schema,
+} = Astro.props;
+
+const siteName  = 'Cabo Image';
+const siteURL   = 'https://caboimage.com';
+const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const ogImage   = image.startsWith('http') ? image : `${siteURL}${image}`;
+
+// Default Organization schema — always present
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${siteURL}/#business`,
+  name: 'Cabo Image',
+  url: siteURL,
+  image: `${siteURL}/images/og-default.jpg`,
+  description:
+    'Professional wedding and portrait photographer in Los Cabos, Baja California Sur, Mexico.',
+  founder: {
+    '@type': 'Person',
+    name: 'Miguel Ventura',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Los Cabos',
+    addressRegion: 'Baja California Sur',
+    addressCountry: 'MX',
+  },
+  areaServed: ['Los Cabos', 'Cabo San Lucas', 'San José del Cabo'],
+  priceRange: '$$$$',
+  sameAs: [
+    'https://instagram.com/caboimage',
+    'https://facebook.com/caboimage',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- SEO -->
+    <SEO
+      title={fullTitle}
+      description={description}
+      canonical={canonicalURL}
+      noindex={noIndex}
+      openGraph={{
+        basic: {
+          title: fullTitle,
+          type,
+          image: ogImage,
+          url: canonicalURL,
+        },
+        optional: {
+          description,
+          siteName,
+          locale: 'en_US',
+        },
+        image: {
+          alt: imageAlt,
+          width: 1200,
+          height: 630,
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        title: fullTitle,
+        description,
+        image: ogImage,
+        imageAlt,
+      }}
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#080808" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts — Cormorant Garamond + Inter + Playfair Display -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+    <!-- Slot for page-specific head additions -->
+    <slot name="head" />
+  </head>
+
+  <body class="bg-cabo-black text-cabo-white antialiased selection:bg-cabo-gold selection:text-cabo-black">
+
+    <!-- Page Content -->
+    <slot />
+
+    <!-- WhatsApp Floating Button -->
+    <slot name="whatsapp" />
+
+  </body>
+</html>

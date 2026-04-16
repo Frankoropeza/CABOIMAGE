@@ -1,0 +1,190 @@
+---
+// services/[slug].astro — Dynamic service page
+// Generates: /services/wedding-photography, /services/portrait-photography, etc.
+
+import { getCollection, getEntry } from 'astro:content';
+import ServiceLayout from '../../layouts/ServiceLayout.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+import ContactForm from '../../components/ui/ContactForm.astro';
+
+// Generate static paths for all active services
+export async function getStaticPaths() {
+  const services = await getCollection('services', ({ data }) => data.active);
+  return services.map(service => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content }  = await service.render();
+const slug = service.slug;
+
+const {
+  title,
+  seoTitle,
+  seoDescription,
+  heroImage,
+  heroImageAlt,
+  tagline,
+  ctaText,
+  ctaUrl,
+  subcategories,
+  faq,
+  keywords,
+} = service.data;
+---
+
+<ServiceLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={heroImage}
+  imageAlt={heroImageAlt}
+  canonicalURL={`https://caboimage.com/services/${slug}`}
+  serviceTitle={title}
+  serviceSlug={slug}
+>
+
+  <!-- HERO -->
+  <section class="relative h-[70vh] min-h-[500px] overflow-hidden">
+    <img
+      src={heroImage}
+      alt={heroImageAlt}
+      class="absolute inset-0 w-full h-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-cabo-black/30 via-transparent to-cabo-black" />
+
+    <div class="relative h-full flex items-end">
+      <div class="container-site pb-16">
+        <p class="eyebrow mb-3">Photography Service</p>
+        <h1 class="font-serif text-display-lg text-cabo-white leading-tight mb-3">
+          {title}
+        </h1>
+        <p class="font-serif text-xl text-cabo-muted italic">
+          {tagline}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="container-site">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 py-20">
+
+      <!-- Content (8 cols) -->
+      <div class="lg:col-span-8">
+        <div class="prose prose-invert prose-lg prose-headings:font-serif prose-headings:font-normal prose-p:text-cabo-muted max-w-none">
+          <Content />
+        </div>
+
+        <!-- Subcategories (for wedding) -->
+        {subcategories && subcategories.length > 0 && (
+          <div class="mt-16">
+            <h2 class="font-serif text-display-sm text-cabo-white mb-8">
+              What's Covered
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {subcategories.map(sub => (
+                <div class="border border-cabo-border p-5 bg-cabo-card hover:border-cabo-gold/30 transition-colors">
+                  <h3 class="font-serif text-cabo-white text-lg mb-2">{sub.name}</h3>
+                  <p class="text-cabo-muted text-sm font-sans leading-relaxed">{sub.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- FAQ -->
+        {faq && faq.length > 0 && (
+          <div class="mt-16">
+            <h2 class="font-serif text-display-sm text-cabo-white mb-8">
+              Frequently Asked Questions
+            </h2>
+            <div class="space-y-4">
+              {faq.map((item, i) => (
+                <details class="group border border-cabo-border bg-cabo-card">
+                  <summary class="flex items-center justify-between cursor-pointer p-6 list-none font-sans text-sm text-cabo-white hover:text-cabo-gold transition-colors">
+                    <span>{item.question}</span>
+                    <svg
+                      width="16" height="16"
+                      viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                      class="flex-shrink-0 ml-4 transition-transform duration-300 group-open:rotate-45"
+                    >
+                      <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                  </summary>
+                  <div class="px-6 pb-6">
+                    <p class="text-cabo-muted font-sans text-sm leading-relaxed">{item.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <!-- Sidebar (4 cols) -->
+      <aside class="lg:col-span-4">
+        <div class="sticky top-28 space-y-8">
+
+          <!-- Booking CTA -->
+          <div class="border border-cabo-gold/30 bg-cabo-card p-8">
+            <h3 class="font-serif text-xl text-cabo-white mb-3">Ready to Book?</h3>
+            <p class="text-cabo-muted text-sm font-sans leading-relaxed mb-6">
+              Check availability and start planning your {title.toLowerCase()} project in Los Cabos.
+            </p>
+            <a
+              href={ctaUrl}
+              class="block text-center px-6 py-3 bg-cabo-gold text-cabo-black text-xs tracking-widest uppercase font-sans font-medium hover:bg-cabo-gold-light transition-all duration-300"
+            >
+              {ctaText}
+            </a>
+          </div>
+
+          <!-- Other Services -->
+          <div>
+            <p class="eyebrow mb-4">Other Services</p>
+            <ul class="space-y-2">
+              {['wedding-photography', 'portrait-photography', 'real-estate-photography', 'architecture-photography', 'fine-art-photography', 'advertising-photography', 'commercial-travel-photography']
+                .filter(s => s !== slug)
+                .map(s => (
+                  <li>
+                    <a
+                      href={`/services/${s}`}
+                      class="text-sm text-cabo-muted hover:text-cabo-gold transition-colors font-sans capitalize"
+                    >
+                      {s.replace(/-/g, ' ').replace('photography', 'Photography')}
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- CONTACT FORM -->
+  <section class="border-t border-cabo-border bg-cabo-surface">
+    <div class="container-site py-20">
+      <SectionHeader
+        eyebrow="Start Here"
+        title={`Inquire About ${title}`}
+        subtitle="Tell me about your project and I will be in touch within 24 hours."
+        align="center"
+        class="mb-12"
+      />
+      <ContactForm
+        formId={`contact-${slug}`}
+        title=""
+        subtitle=""
+      />
+    </div>
+  </section>
+
+</ServiceLayout>

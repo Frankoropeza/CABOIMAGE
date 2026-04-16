@@ -1,0 +1,49 @@
+---
+// SectionHeader.astro — Consistent section title block
+
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center' | 'right';
+  titleSize?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+  align = 'center',
+  titleSize = 'md',
+  class: className = '',
+} = Astro.props;
+
+const alignClasses = {
+  left:   'text-left',
+  center: 'text-center mx-auto',
+  right:  'text-right ml-auto',
+};
+
+const titleSizeClasses = {
+  sm: 'text-display-sm',
+  md: 'text-display-md',
+  lg: 'text-display-lg',
+};
+---
+
+<div class:list={['max-w-2xl', alignClasses[align], className]}>
+  {eyebrow && (
+    <p class="text-cabo-gold text-xs tracking-widest uppercase font-sans mb-4">
+      {eyebrow}
+    </p>
+  )}
+  <h2 class:list={['font-serif text-cabo-white leading-tight', titleSizeClasses[titleSize]]}>
+    {title}
+  </h2>
+  {subtitle && (
+    <p class="mt-4 text-cabo-muted leading-relaxed font-sans">
+      {subtitle}
+    </p>
+  )}
+</div>

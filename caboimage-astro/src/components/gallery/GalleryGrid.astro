@@ -1,0 +1,190 @@
+---
+// GalleryGrid.astro — Masonry-style image grid with lightbox
+
+export interface ImageItem {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+  venue?: string;
+  year?: number;
+}
+
+export interface Props {
+  images: ImageItem[];
+  columns?: 2 | 3 | 4;
+  lightbox?: boolean;
+  lazy?: boolean;
+}
+
+const {
+  images,
+  columns = 3,
+  lightbox = true,
+  lazy = true,
+} = Astro.props;
+
+const colClass = {
+  2: 'sm:columns-2',
+  3: 'sm:columns-2 lg:columns-3',
+  4: 'sm:columns-2 lg:columns-3 xl:columns-4',
+}[columns];
+---
+
+<div
+  class:list={['columns-1 gap-3', colClass]}
+  data-gallery={lightbox ? 'true' : undefined}
+>
+  {images.map((image, index) => (
+    <figure
+      class="break-inside-avoid mb-3 group relative overflow-hidden bg-cabo-card cursor-pointer"
+      data-index={index}
+    >
+      <img
+        src={image.src}
+        alt={image.alt}
+        width={image.width}
+        height={image.height}
+        loading={lazy && index > 3 ? 'lazy' : 'eager'}
+        decoding="async"
+        class="w-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+
+      <!-- Hover overlay -->
+      <div class="absolute inset-0 bg-cabo-black/0 group-hover:bg-cabo-black/30 transition-all duration-300 flex items-end">
+        {(image.caption || image.venue) && (
+          <figcaption class="p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+            {image.caption && (
+              <p class="text-cabo-white text-sm font-serif italic">{image.caption}</p>
+            )}
+            {image.venue && (
+              <p class="text-cabo-gold text-xs tracking-wider uppercase font-sans mt-1">{image.venue}</p>
+            )}
+          </figcaption>
+        )}
+        {lightbox && (
+          <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+          </div>
+        )}
+      </div>
+    </figure>
+  ))}
+</div>
+
+<!-- Lightbox Modal -->
+{lightbox && (
+  <div
+    id="lightbox"
+    class="fixed inset-0 z-[100] bg-cabo-black/95 backdrop-blur-sm hidden items-center justify-center"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image viewer"
+  >
+    <button
+      id="lightbox-close"
+      class="absolute top-6 right-6 text-cabo-white hover:text-cabo-gold transition-colors z-10"
+      aria-label="Close image viewer"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+
+    <button
+      id="lightbox-prev"
+      class="absolute left-4 top-1/2 -translate-y-1/2 text-cabo-white hover:text-cabo-gold transition-colors z-10 p-2"
+      aria-label="Previous image"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <div class="max-w-[90vw] max-h-[90vh] relative">
+      <img
+        id="lightbox-img"
+        src=""
+        alt=""
+        class="max-w-full max-h-[85vh] object-contain"
+      />
+      <div id="lightbox-caption" class="mt-3 text-center">
+        <p id="lightbox-caption-text" class="text-cabo-muted font-serif italic text-sm"></p>
+        <p id="lightbox-venue-text" class="text-cabo-gold text-xs tracking-wider uppercase font-sans mt-1"></p>
+      </div>
+    </div>
+
+    <button
+      id="lightbox-next"
+      class="absolute right-4 top-1/2 -translate-y-1/2 text-cabo-white hover:text-cabo-gold transition-colors z-10 p-2"
+      aria-label="Next image"
+    >
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+)}
+
+<script>
+  const gallery   = document.querySelector('[data-gallery]');
+  const lightbox  = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const lbCaption = document.getElementById('lightbox-caption-text');
+  const lbVenue   = document.getElementById('lightbox-venue-text');
+  const lbClose   = document.getElementById('lightbox-close');
+  const lbPrev    = document.getElementById('lightbox-prev');
+  const lbNext    = document.getElementById('lightbox-next');
+
+  if (!gallery || !lightbox || !lbImg) {
+    // No lightbox needed
+  } else {
+    const figures = Array.from(gallery.querySelectorAll('figure'));
+    let current   = 0;
+
+    const open = (index: number) => {
+      current = ((index % figures.length) + figures.length) % figures.length;
+      const fig    = figures[current];
+      const img    = fig.querySelector('img')!;
+      const cap    = fig.querySelector('figcaption p:first-child');
+      const venue  = fig.querySelector('figcaption p:last-child');
+
+      lbImg!.src     = img.src;
+      lbImg!.alt     = img.alt;
+      if (lbCaption)  lbCaption.textContent  = cap?.textContent  ?? '';
+      if (lbVenue)    lbVenue.textContent    = venue?.textContent ?? '';
+
+      lightbox!.classList.remove('hidden');
+      lightbox!.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const close = () => {
+      lightbox!.classList.add('hidden');
+      lightbox!.classList.remove('flex');
+      document.body.style.overflow = '';
+    };
+
+    figures.forEach((fig, i) => {
+      fig.addEventListener('click', () => open(i));
+    });
+
+    lbClose?.addEventListener('click', close);
+    lbPrev?.addEventListener('click',  () => open(current - 1));
+    lbNext?.addEventListener('click',  () => open(current + 1));
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.classList.contains('hidden')) return;
+      if (e.key === 'Escape')      close();
+      if (e.key === 'ArrowLeft')   open(current - 1);
+      if (e.key === 'ArrowRight')  open(current + 1);
+    });
+  }
+</script>

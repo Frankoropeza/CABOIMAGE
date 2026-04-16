@@ -1,0 +1,42 @@
+---
+// blog/[slug].astro — Individual blog post page
+
+import { getCollection } from 'astro:content';
+import BlogLayout from '../../layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const {
+  title,
+  description,
+  pubDate,
+  heroImage,
+  heroImageAlt,
+  author,
+  tags,
+  seoTitle,
+  seoDescription,
+} = post.data;
+---
+
+<BlogLayout
+  title={seoTitle ?? title}
+  description={seoDescription ?? description}
+  image={heroImage}
+  imageAlt={heroImageAlt}
+  pubDate={pubDate}
+  author={author}
+  tags={tags}
+  canonicalURL={`https://caboimage.com/blog/${post.slug}`}
+>
+  <Content />
+</BlogLayout>

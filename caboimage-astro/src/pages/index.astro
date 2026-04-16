@@ -1,0 +1,58 @@
+---
+// index.astro — Homepage
+// ⚠️  DESIGN PENDING — Shell ready, components to be built out
+// All sections are commented stubs waiting for design implementation
+
+import PageLayout from '../layouts/PageLayout.astro';
+
+// TODO: Import home sections as they are designed
+// import Hero            from '../components/home/Hero.astro';
+// import FeaturedWork    from '../components/home/FeaturedWork.astro';
+// import ServicesOverview from '../components/home/ServicesOverview.astro';
+// import AboutSnippet    from '../components/home/AboutSnippet.astro';
+// import Testimonials    from '../components/home/Testimonials.astro';
+---
+
+<PageLayout
+  title="Los Cabos Wedding Photographer | Cabo Image by Miguel Ventura"
+  description="Award-winning wedding and portrait photographer based in Los Cabos, Mexico. Serving Cabo San Lucas, San José del Cabo, and destination weddings throughout Baja California Sur."
+  headerTransparent={true}
+>
+
+  <!--
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║   HOMEPAGE — DESIGN IN PROGRESS                                  ║
+    ║   Section order:                                                 ║
+    ║   1. Hero (full-screen image + headline)                         ║
+    ║   2. Featured Work (6–9 best images, masonry or grid)            ║
+    ║   3. Services Overview (7 service cards)                         ║
+    ║   4. About Snippet (Miguel + photo + link)                       ║
+    ║   5. Testimonials Carousel                                       ║
+    ║   6. Instagram Feed (latest 6–9 posts)                           ║
+    ║   7. Final CTA (book a consultation)                             ║
+    ╚══════════════════════════════════════════════════════════════════╝
+  -->
+
+  <!-- TEMPORARY PLACEHOLDER -->
+  <section class="min-h-screen flex items-center justify-center">
+    <div class="text-center px-6">
+      <p class="eyebrow mb-4">Coming Soon</p>
+      <h1 class="font-serif text-display-lg text-cabo-white mb-6">
+        Cabo Image
+      </h1>
+      <p class="font-serif text-xl text-cabo-muted italic mb-2">
+        by Miguel Ventura
+      </p>
+      <p class="text-cabo-subtle font-sans text-sm tracking-wider mb-10">
+        Wedding &amp; Lifestyle Photographer · Los Cabos, Mexico
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 px-8 py-4 border border-cabo-gold text-cabo-gold text-xs tracking-widest uppercase font-sans hover:bg-cabo-gold hover:text-cabo-black transition-all duration-300"
+      >
+        Book a Consultation
+      </a>
+    </div>
+  </section>
+
+</PageLayout>

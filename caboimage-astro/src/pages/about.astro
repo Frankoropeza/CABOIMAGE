@@ -1,0 +1,88 @@
+---
+// about.astro — About Miguel Ventura page
+// ⚠️  DESIGN PENDING
+
+import PageLayout from '../layouts/PageLayout.astro';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Miguel Ventura',
+  jobTitle: 'Professional Photographer',
+  worksFor: {
+    '@type': 'LocalBusiness',
+    '@id': 'https://caboimage.com/#business',
+    name: 'Cabo Image',
+  },
+  url: 'https://caboimage.com/about',
+  description:
+    'Professional wedding and portrait photographer based in Los Cabos, Baja California Sur, Mexico with 5+ years of local experience.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Los Cabos',
+    addressRegion: 'Baja California Sur',
+    addressCountry: 'MX',
+  },
+};
+---
+
+<PageLayout
+  title="About Miguel Ventura | Cabo Image"
+  description="Meet Miguel Ventura — professional wedding and portrait photographer based in Los Cabos, Mexico. Learn about his philosophy, experience, and approach to capturing life's most important moments."
+  schema={schema}
+  headerTransparent={false}
+>
+
+  <!--
+    ╔══════════════════════════════════════════════════════════════════╗
+    ║   ABOUT PAGE — DESIGN IN PROGRESS                                ║
+    ║   Section order:                                                 ║
+    ║   1. Page Hero (portrait of Miguel + location)                   ║
+    ║   2. Story (bio text — see content below)                        ║
+    ║   3. Philosophy (3 core values with icons)                       ║
+    ║   4. Equipment & Approach                                        ║
+    ║   5. Numbers / Stats (years, weddings, etc.)                     ║
+    ║   6. CTA → Contact                                               ║
+    ╚══════════════════════════════════════════════════════════════════╝
+  -->
+
+  <div class="pt-24 container-site section">
+
+    <div class="max-w-content mx-auto">
+      <p class="eyebrow mb-4">About</p>
+      <h1 class="font-serif text-display-md text-cabo-white mb-8">Miguel Ventura</h1>
+
+      <div class="prose prose-invert prose-lg max-w-none">
+        <p>
+          To be a photographer is not just my job — it's my passion.
+        </p>
+        <p>
+          A photograph should show emotion, feeling, natural expression and detail
+          that have the power to last forever. My job is to make all these elements
+          come together in each and every photograph I take.
+        </p>
+        <p>
+          My pursuit of photography was never interrupted and I've always strived
+          to keep myself up to date with the newest in equipment, techniques,
+          lighting, and more. Having lived in Los Cabos for years, I've been
+          covering events of all kinds, at the same time familiarizing myself with
+          the Los Cabos area and its particular characteristics.
+        </p>
+        <p>
+          I work with professional Canon digital equipment and, for the convenience
+          of my clients, all photographs are delivered in digital format.
+        </p>
+      </div>
+
+      <div class="mt-12">
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 px-8 py-4 border border-cabo-gold text-cabo-gold text-xs tracking-widest uppercase font-sans hover:bg-cabo-gold hover:text-cabo-black transition-all duration-300"
+        >
+          Work With Miguel
+        </a>
+      </div>
+    </div>
+
+  </div>
+</PageLayout>

@@ -1,0 +1,60 @@
+---
+// services/index.astro — Services overview page
+
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import ServiceCard from '../../components/services/ServiceCard.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+const services = (await getCollection('services'))
+  .filter(s => s.data.active)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<PageLayout
+  title="Photography Services | Cabo Image — Los Cabos"
+  description="Professional photography services in Los Cabos, Mexico: wedding photography, portrait sessions, real estate, architecture, fine art, advertising, and commercial travel photography."
+  headerTransparent={false}
+>
+
+  <div class="pt-28 pb-20 container-site">
+
+    <SectionHeader
+      eyebrow="What I Offer"
+      title="Photography Services"
+      subtitle="From destination weddings to luxury real estate — professional photography that serves your vision."
+      align="center"
+      class="mb-16"
+    />
+
+    <!-- Services Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {services.map(service => (
+        <ServiceCard
+          title={service.data.title}
+          slug={service.data.slug}
+          tagline={service.data.tagline}
+          heroImage={service.data.heroImage}
+          heroImageAlt={service.data.heroImageAlt}
+          featured={service.data.featured}
+          order={service.data.order}
+        />
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-16">
+      <p class="text-cabo-muted font-sans mb-6">
+        Not sure which service fits your project?
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 px-8 py-4 border border-cabo-gold text-cabo-gold text-xs tracking-widest uppercase font-sans hover:bg-cabo-gold hover:text-cabo-black transition-all duration-300"
+      >
+        Let's Talk
+      </a>
+    </div>
+
+  </div>
+
+</PageLayout>

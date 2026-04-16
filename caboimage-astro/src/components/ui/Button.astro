@@ -1,0 +1,62 @@
+---
+// Button.astro — Reusable button component
+
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'ghost' | 'gold';
+  size?: 'sm' | 'md' | 'lg';
+  external?: boolean;
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  external = false,
+  class: className = '',
+  type = 'button',
+  disabled = false,
+  ariaLabel,
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'px-4 py-2 text-xs',
+  md: 'px-6 py-3 text-sm',
+  lg: 'px-8 py-4 text-sm',
+};
+
+const variantClasses = {
+  primary: 'bg-cabo-gold text-cabo-black hover:bg-cabo-gold-light',
+  outline: 'border border-cabo-gold text-cabo-gold hover:bg-cabo-gold hover:text-cabo-black',
+  ghost:   'text-cabo-muted hover:text-cabo-white',
+  gold:    'bg-transparent border border-cabo-white/20 text-cabo-white hover:border-cabo-gold hover:text-cabo-gold',
+};
+
+const baseClasses = 'inline-flex items-center justify-center gap-2 tracking-widest uppercase font-sans transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cabo-gold focus:ring-offset-2 focus:ring-offset-cabo-black disabled:opacity-50 disabled:pointer-events-none';
+
+const allClasses = [baseClasses, sizeClasses[size], variantClasses[variant], className].join(' ');
+---
+
+{href ? (
+  <a
+    href={href}
+    class={allClasses}
+    aria-label={ariaLabel}
+    {...external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    type={type}
+    class={allClasses}
+    disabled={disabled}
+    aria-label={ariaLabel}
+  >
+    <slot />
+  </button>
+)}

@@ -1,0 +1,122 @@
+---
+// gallery/[category].astro — Gallery category pages
+// Generates: /gallery/weddings, /gallery/portraits, etc.
+
+import PageLayout from '../../layouts/PageLayout.astro';
+import GalleryGrid from '../../components/gallery/GalleryGrid.astro';
+import SectionHeader from '../../components/ui/SectionHeader.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { category: 'weddings' } },
+    { params: { category: 'portraits' } },
+    { params: { category: 'real-estate' } },
+    { params: { category: 'fine-art' } },
+    // Wedding subcategories
+    { params: { category: 'weddings--details' } },
+    { params: { category: 'weddings--getting-ready' } },
+    { params: { category: 'weddings--ceremony' } },
+    { params: { category: 'weddings--bride-and-groom' } },
+    { params: { category: 'weddings--brides' } },
+    { params: { category: 'weddings--love' } },
+    { params: { category: 'weddings--groups' } },
+  ];
+}
+
+const { category } = Astro.params;
+
+// Category metadata map
+const categoryMeta: Record<string, { title: string; description: string; seoDesc: string }> = {
+  'weddings': {
+    title: 'Wedding Photography Gallery',
+    description: 'A selection of wedding photography from Los Cabos, Baja California Sur.',
+    seoDesc: 'Browse wedding photography by Cabo Image — destination weddings in Los Cabos, Cabo San Lucas, and San José del Cabo, Mexico.',
+  },
+  'portraits': {
+    title: 'Portrait Photography Gallery',
+    description: 'Personal and lifestyle portrait sessions in the landscapes of Los Cabos.',
+    seoDesc: 'Portrait photography by Cabo Image in Los Cabos, Mexico — family, couple, and personal sessions.',
+  },
+  'real-estate': {
+    title: 'Real Estate Photography Gallery',
+    description: 'Luxury property photography from Los Cabos and the Corridor.',
+    seoDesc: 'Real estate and architecture photography by Cabo Image in Los Cabos — luxury villas, resorts, and properties.',
+  },
+  'fine-art': {
+    title: 'Fine Art Photography Gallery',
+    description: 'Artistic work from the landscapes of Baja California Sur.',
+    seoDesc: 'Fine art photography by Miguel Ventura / Cabo Image — landscapes and artistic work from Los Cabos, Mexico.',
+  },
+};
+
+const meta = categoryMeta[category] ?? {
+  title: `${category.replace(/-/g, ' ')} — Gallery`,
+  description: 'Photography gallery by Cabo Image, Los Cabos.',
+  seoDesc: 'Photography gallery by Cabo Image, Los Cabos, Mexico.',
+};
+
+// TODO: Load actual images from content collection or static import
+// For now, placeholder images array
+const images: { src: string; alt: string; caption?: string; venue?: string }[] = [];
+---
+
+<PageLayout
+  title={`${meta.title} | Cabo Image`}
+  description={meta.seoDesc}
+  headerTransparent={false}
+>
+
+  <div class="pt-28 pb-20">
+
+    <!-- Header -->
+    <div class="container-site mb-12">
+      <a
+        href="/gallery"
+        class="inline-flex items-center gap-2 text-cabo-subtle hover:text-cabo-gold transition-colors text-xs tracking-wider uppercase font-sans mb-8"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M19 12H5M5 12l7 7M5 12l7-7"/>
+        </svg>
+        All Galleries
+      </a>
+
+      <SectionHeader
+        title={meta.title}
+        subtitle={meta.description}
+        align="left"
+      />
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="container-site">
+      {images.length > 0 ? (
+        <GalleryGrid images={images} columns={3} lightbox={true} />
+      ) : (
+        <div class="py-20 text-center border border-cabo-border bg-cabo-card">
+          <p class="text-cabo-subtle font-sans text-sm">
+            Gallery coming soon — images will be added here.
+          </p>
+        </div>
+      )}
+    </div>
+
+    <!-- Wedding subcategory navigation -->
+    {category === 'weddings' && (
+      <div class="container-site mt-16">
+        <p class="eyebrow mb-6">Browse by Moment</p>
+        <div class="flex flex-wrap gap-3">
+          {['Details', 'Getting Ready', 'Ceremony', 'Bride & Groom', 'Brides', 'Love', 'Groups'].map(sub => (
+            <a
+              href={`/gallery/weddings--${sub.toLowerCase().replace(/[&\s]+/g, '-')}`}
+              class="px-4 py-2 border border-cabo-border text-cabo-muted text-xs tracking-wider uppercase font-sans hover:border-cabo-gold hover:text-cabo-gold transition-all duration-200"
+            >
+              {sub}
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+  </div>
+
+</PageLayout>
