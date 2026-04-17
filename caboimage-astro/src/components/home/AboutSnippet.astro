@@ -1,0 +1,295 @@
+---
+// AboutSnippet.astro — Miguel Ventura, 2 columnas asimétricas
+// Patrón: imagen izquierda con accent card + copy derecho estructurado
+
+const credenciales = [
+  'Bodas en One&Only Palmilla, Capella Pedregal, Esperanza Auberge',
+  'Más de 400 bodas documentadas en Los Cabos',
+  'Clientes de 18 países incluyendo EUA, Canadá y Europa',
+  'Especializado en luz natural y momentos auténticos',
+];
+---
+
+<section class="ab" aria-label="Sobre Miguel Ventura">
+  <div class="ab__inner">
+    <div class="ab__grid">
+
+      <!-- Columna imagen -->
+      <div class="ab__media">
+        <div class="ab__img-wrap">
+          <img
+            src="/images/gallery/weddings/love/wedding-love-los-cabos-01.avif"
+            alt="Fotografía de boda en Los Cabos por Miguel Ventura"
+            loading="lazy"
+            decoding="async"
+            class="ab__img"
+            width="600"
+            height="750"
+          />
+          <!-- Accent card superpuesta -->
+          <div class="ab__accent" aria-hidden="true">
+            <div class="ab__accent-inner">
+              <p class="ab__accent-num">12+</p>
+              <p class="ab__accent-label">años en<br />Los Cabos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna texto -->
+      <div class="ab__copy">
+
+        <p class="ab__eyebrow">El fotógrafo</p>
+
+        <h2 class="ab__title">
+          Miguel Ventura<br />
+          <em class="ab__title-em">Fotógrafo en Los Cabos</em>
+        </h2>
+
+        <div class="ab__rule" aria-hidden="true"></div>
+
+        <p class="ab__body">
+          Basado en Los Cabos, Miguel Ventura ha pasado más de una década documentando bodas y momentos significativos en algunos de los venues más exclusivos de México — desde elopements íntimos en El Arco hasta grandes celebraciones en Palmilla.
+        </p>
+
+        <p class="ab__body">
+          Su enfoque se centra en la paciencia y la observación: esperar los momentos desapercibidos, trabajar con luz natural y dejar que la emoción guíe el encuadre. El resultado es fotografía que se siente real, atemporal y digna de enmarcarse.
+        </p>
+
+        <!-- Credenciales -->
+        <ul class="ab__creds" aria-label="Credenciales">
+          {credenciales.map(c => (
+            <li class="ab__cred">
+              <span class="ab__cred-dot" aria-hidden="true"></span>
+              <span>{c}</span>
+            </li>
+          ))}
+        </ul>
+
+        <!-- CTA -->
+        <div class="ab__actions">
+          <a href="/about" class="ab__btn ab__btn--primary">
+            Conocer a Miguel
+          </a>
+          <a href="/gallery" class="ab__btn ab__btn--ghost">
+            Ver portafolio
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── ABOUT ──────────────────────────────────────────────────────────────── */
+
+.ab {
+  background-color: #080808;
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  border-top: 1px solid #1A1A1A;
+}
+
+.ab__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .ab__inner { padding: 0 2.5rem; }
+}
+
+/* Grid */
+.ab__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .ab__grid { grid-template-columns: 1fr 1.1fr; }
+}
+
+/* Media */
+.ab__media {
+  position: relative;
+}
+
+.ab__img-wrap {
+  position: relative;
+  max-width: 500px;
+}
+
+.ab__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+/* Accent card */
+.ab__accent {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -1.5rem;
+  background-color: #C8A97E;
+  padding: 0;
+}
+
+@media (max-width: 640px) {
+  .ab__accent { right: 0; bottom: -1rem; }
+}
+
+.ab__accent-inner {
+  padding: 1.25rem 1.75rem;
+  text-align: center;
+}
+
+.ab__accent-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.75rem;
+  font-weight: 300;
+  line-height: 1;
+  color: #080808;
+  margin: 0;
+}
+
+.ab__accent-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(8,8,8,.65);
+  margin: 0.375rem 0 0;
+  line-height: 1.5;
+}
+
+/* Copy */
+.ab__copy {
+  padding-bottom: 2rem; /* offset del accent card */
+}
+
+@media (max-width: 1023px) {
+  .ab__copy { padding-top: 2.5rem; }
+}
+
+.ab__eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C8A97E;
+  margin: 0 0 1rem;
+}
+
+.ab__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #F5F0EB;
+  margin: 0 0 1.5rem;
+}
+
+.ab__title-em {
+  font-style: italic;
+  color: #B0A99F;
+  font-size: 0.85em;
+}
+
+.ab__rule {
+  width: 3rem;
+  height: 1px;
+  background: #C8A97E;
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+}
+
+.ab__body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1vw, 0.9375rem);
+  color: #6B6B6B;
+  line-height: 1.8;
+  margin: 0 0 1.125rem;
+  max-width: 52ch;
+}
+
+/* Credenciales */
+.ab__creds {
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  border-top: 1px solid #1A1A1A;
+  padding-top: 1.75rem;
+}
+
+.ab__cred {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  color: #6B6B6B;
+  line-height: 1.5;
+}
+
+.ab__cred-dot {
+  width: 4px;
+  height: 4px;
+  background: #C8A97E;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 0.45rem;
+}
+
+/* Acciones */
+.ab__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+}
+
+.ab__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.8125rem 1.625rem;
+  border-radius: 2px;
+}
+
+.ab__btn--primary {
+  background: #C8A97E;
+  color: #080808;
+  border: 1px solid #C8A97E;
+}
+
+.ab__btn--primary:hover {
+  background: #D9C09D;
+  border-color: #D9C09D;
+}
+
+.ab__btn--ghost {
+  background: transparent;
+  color: #B0A99F;
+  border: 1px solid #242424;
+}
+
+.ab__btn--ghost:hover {
+  border-color: rgba(200,169,126,.35);
+  color: #C8A97E;
+}
+</style>

@@ -27,10 +27,10 @@ function isActive(href: string): boolean {
 <header
   id="site-header"
   class:list={[
-    'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+    'site-header fixed top-0 left-0 right-0 z-50',
     transparent
       ? 'bg-transparent'
-      : 'bg-cabo-black/95 backdrop-blur-md border-b border-cabo-border',
+      : 'site-header--solid',
   ]}
   data-transparent={transparent}
 >
@@ -132,10 +132,10 @@ function isActive(href: string): boolean {
   if (isTransparent) {
     const updateHeader = () => {
       if (window.scrollY > 60) {
-        header.classList.add('bg-cabo-black/95', 'backdrop-blur-md', 'border-b', 'border-cabo-border');
+        header.classList.add('site-header--solid');
         header.classList.remove('bg-transparent');
       } else {
-        header.classList.remove('bg-cabo-black/95', 'backdrop-blur-md', 'border-b', 'border-cabo-border');
+        header.classList.remove('site-header--solid');
         header.classList.add('bg-transparent');
       }
     };
@@ -180,3 +180,12 @@ function isActive(href: string): boolean {
     }
   });
 </script>
+
+<style>
+  .site-header--solid {
+    background: #101010;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+</style>

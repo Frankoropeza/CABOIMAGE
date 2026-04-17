@@ -1,0 +1,337 @@
+---
+// ServicesOverview.astro — 7 servicios con cards sofisticadas
+// Patrón: header 2 col (título izq + copy der) + grid cards con subcategorías
+
+import { getCollection } from 'astro:content';
+
+const allServices = await getCollection('services');
+
+const serviceConfig: Record<string, { icon: string; tags: string[] }> = {
+  'wedding-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+    tags: ['Ceremonia', 'Recepción', 'Getting Ready', 'Trash the Dress'],
+  },
+  'portrait-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    tags: ['Familia', 'Maternidad', 'Lifestyle', 'Quinceañera'],
+  },
+  'real-estate-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+    tags: ['Villas', 'Condominios', 'Terrenos', 'Hoteles'],
+  },
+  'architecture-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
+    tags: ['Interiores', 'Exteriores', 'Resorts', 'Diseño'],
+  },
+  'fine-art-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>`,
+    tags: ['Impresión limitada', 'Exposiciones', 'Proyectos', 'Paisaje'],
+  },
+  'advertising-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>`,
+    tags: ['Restaurantes', 'Hospitalidad', 'Branding', 'Editorial'],
+  },
+  'commercial-travel-photography': {
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>`,
+    tags: ['Turismo', 'Destino', 'Baja California', 'Campaña'],
+  },
+};
+
+const serviceOrder = [
+  'wedding-photography',
+  'portrait-photography',
+  'real-estate-photography',
+  'architecture-photography',
+  'fine-art-photography',
+  'advertising-photography',
+  'commercial-travel-photography',
+];
+
+const services = serviceOrder
+  .map(slug => {
+    const entry = allServices.find(s => s.slug === slug);
+    return entry ? { slug, data: entry.data, cfg: serviceConfig[slug] } : null;
+  })
+  .filter(Boolean);
+---
+
+<section class="sv" aria-label="Servicios fotográficos">
+  <div class="sv__inner">
+
+    <!-- Section header: 2 columnas -->
+    <div class="sv__header">
+      <div class="sv__header-left">
+        <p class="sv__eyebrow">Servicios</p>
+        <h2 class="sv__title">
+          Fotografía para<br />
+          <em class="sv__title-em">cada visión</em>
+        </h2>
+      </div>
+      <div class="sv__header-right">
+        <p class="sv__header-body">
+          Desde bodas íntimas hasta espacios arquitectónicos de lujo — imágenes profesionales que elevan su historia y proyectan la esencia de Los Cabos al mundo.
+        </p>
+        <a href="/services" class="sv__header-link">
+          Ver todos los servicios
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cards grid -->
+    <ul class="sv__grid" role="list">
+      {services.map((svc, i) => (
+        <li class="sv__item" role="listitem">
+          <a href={`/services/${svc!.slug}`} class="sv__card" aria-label={`${svc!.data.title} — ver servicio`}>
+
+            <!-- Número -->
+            <span class="sv__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+
+            <!-- Ícono -->
+            <div class="sv__icon" aria-hidden="true" set:html={svc!.cfg.icon} />
+
+            <!-- Contenido -->
+            <div class="sv__content">
+              <h3 class="sv__card-title">{svc!.data.title}</h3>
+              <p class="sv__card-desc">{svc!.data.description}</p>
+            </div>
+
+            <!-- Subcategorías -->
+            <ul class="sv__tags" aria-label="Tipos de sesión">
+              {svc!.cfg.tags.map(tag => (
+                <li class="sv__tag">{tag}</li>
+              ))}
+            </ul>
+
+            <!-- Flecha -->
+            <div class="sv__arrow" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+          </a>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</section>
+
+<style>
+/* ── SERVICES OVERVIEW ──────────────────────────────────────────────────── */
+
+.sv {
+  background-color: #0A0A0A;
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  border-top: 1px solid #1A1A1A;
+}
+
+.sv__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .sv__inner { padding: 0 2.5rem; }
+}
+
+/* ── Section Header ───────────────────────────────────────────────────────── */
+
+.sv__header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  margin-bottom: clamp(2.5rem, 4vw, 4rem);
+  align-items: end;
+}
+
+@media (min-width: 768px) {
+  .sv__header { grid-template-columns: 1fr 1fr; }
+}
+
+.sv__eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C8A97E;
+  margin: 0 0 0.875rem;
+}
+
+.sv__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #F5F0EB;
+  margin: 0;
+}
+
+.sv__title-em {
+  font-style: italic;
+  color: #C8A97E;
+}
+
+.sv__header-body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1vw, 0.9375rem);
+  color: #6B6B6B;
+  line-height: 1.75;
+  margin: 0 0 1.5rem;
+  max-width: 52ch;
+}
+
+.sv__header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #C8A97E;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200,169,126,.3);
+  padding-bottom: 0.2rem;
+}
+
+.sv__header-link:hover {
+  color: #D9C09D;
+  border-bottom-color: #C8A97E;
+}
+
+/* ── Grid ─────────────────────────────────────────────────────────────────── */
+
+.sv__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid #1E1E1E;
+  border-left: 1px solid #1E1E1E;
+}
+
+@media (min-width: 640px) {
+  .sv__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .sv__grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.sv__item {
+  border-right: 1px solid #1E1E1E;
+  border-bottom: 1px solid #1E1E1E;
+}
+
+/* Card */
+.sv__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: clamp(1.5rem, 2.5vw, 2rem) clamp(1.25rem, 2vw, 1.75rem);
+  text-decoration: none;
+  height: 100%;
+  position: relative;
+  background-color: #0A0A0A;
+}
+
+.sv__card:hover {
+  background-color: #111111;
+}
+
+.sv__card:hover .sv__arrow {
+  opacity: 1;
+  color: #C8A97E;
+}
+
+.sv__card:hover .sv__card-title {
+  color: #C8A97E;
+}
+
+/* Número ordinal */
+.sv__num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.875rem;
+  color: #2A2A2A;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+/* Icono */
+.sv__icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C8A97E;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+/* Contenido */
+.sv__content {
+  flex: 1;
+  margin-bottom: 1.25rem;
+}
+
+.sv__card-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
+  font-weight: 400;
+  color: #F5F0EB;
+  margin: 0 0 0.625rem;
+  line-height: 1.2;
+}
+
+.sv__card-desc {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  color: #4A4A4A;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Tags */
+.sv__tags {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  border-top: 1px solid #1E1E1E;
+  padding-top: 1rem;
+}
+
+.sv__tag {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: #4A4A4A;
+  border: 1px solid #1E1E1E;
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+}
+
+.sv__card:hover .sv__tag {
+  border-color: rgba(200,169,126,.15);
+  color: #6B6B6B;
+}
+
+/* Flecha */
+.sv__arrow {
+  opacity: 0;
+  color: #C8A97E;
+  display: flex;
+  align-items: center;
+}
+</style>

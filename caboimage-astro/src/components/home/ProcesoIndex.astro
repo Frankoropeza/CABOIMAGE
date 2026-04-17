@@ -1,0 +1,264 @@
+---
+// ProcesoIndex.astro — Cómo trabajamos, 4 pasos
+// Fondo oscuro (surface), grid horizontal en desktop, conector entre pasos
+
+const pasos = [
+  {
+    num: '01',
+    titulo: 'Consulta inicial',
+    desc: 'Conversamos sobre tu visión, el lugar, la fecha y los detalles de tu boda o proyecto. Sin costo, sin compromiso.',
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  },
+  {
+    num: '02',
+    titulo: 'Planificación',
+    desc: 'Visitamos las locaciones, coordinamos con el venue y los proveedores, y construimos un plan fotográfico personalizado.',
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  },
+  {
+    num: '03',
+    titulo: 'Sesión fotográfica',
+    desc: 'El día del evento capturamos cada momento con discreción y precisión. Luz natural, emociones reales, imágenes auténticas.',
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
+  },
+  {
+    num: '04',
+    titulo: 'Entrega &amp; galería',
+    desc: 'Recibes tu galería privada online, editada profesionalmente en alta resolución, lista para compartir e imprimir.',
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  },
+];
+---
+
+<section class="pr" aria-label="Cómo trabajamos">
+  <div class="pr__inner">
+
+    <!-- Header -->
+    <div class="pr__header">
+      <p class="pr__eyebrow">Proceso</p>
+      <h2 class="pr__title">Cómo trabajamos</h2>
+      <p class="pr__subtitle">
+        Un proceso simple, humano y totalmente enfocado en ti.
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="pr__grid" role="list">
+      {pasos.map((paso, i) => (
+        <div class="pr__step" role="listitem">
+
+          <!-- Conector (decorativo) -->
+          {i < pasos.length - 1 && (
+            <div class="pr__connector" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4 10h12M12 6l4 4-4 4" stroke="#2A2A2A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          )}
+
+          <!-- Número -->
+          <span class="pr__num" aria-hidden="true">{paso.num}</span>
+
+          <!-- Ícono -->
+          <div class="pr__icon" aria-hidden="true" set:html={paso.icon} />
+
+          <!-- Texto -->
+          <h3 class="pr__step-title" set:html={paso.titulo} />
+          <p class="pr__step-desc">{paso.desc}</p>
+
+        </div>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="pr__footer">
+      <a href="/contact" class="pr__cta">
+        Iniciar consulta gratuita
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ── PROCESO INDEX ──────────────────────────────────────────────────────── */
+
+.pr {
+  background-color: #0D0D0D;
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  border-top: 1px solid #1A1A1A;
+}
+
+.pr__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .pr__inner { padding: 0 2.5rem; }
+}
+
+/* Header centrado */
+.pr__header {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pr__eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C8A97E;
+  margin: 0 0 0.875rem;
+}
+
+.pr__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.875rem, 3vw, 2.5rem);
+  font-weight: 300;
+  color: #F5F0EB;
+  margin: 0 0 0.875rem;
+}
+
+.pr__subtitle {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1vw, 0.9375rem);
+  color: #6B6B6B;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Grid */
+.pr__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .pr__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .pr__grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Step */
+.pr__step {
+  position: relative;
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 2vw, 2rem);
+  border: 1px solid #1A1A1A;
+  margin: -1px 0 0 -1px;
+  background-color: #0D0D0D;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pr__step:hover {
+  background-color: #111111;
+  border-color: #242424;
+  z-index: 1;
+}
+
+/* Conector desktop */
+.pr__connector {
+  display: none;
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: #0D0D0D;
+  padding: 2px;
+}
+
+@media (min-width: 1024px) {
+  .pr__connector { display: flex; }
+}
+
+/* Número */
+.pr__num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.875rem;
+  color: #1E1E1E;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 1.25rem;
+}
+
+/* Ícono */
+.pr__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #C8A97E;
+  background: rgba(200,169,126,.08);
+  border-radius: 4px;
+  margin-bottom: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Título del paso */
+.pr__step-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.125rem, 1.5vw, 1.3125rem);
+  font-weight: 400;
+  color: #F5F0EB;
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+}
+
+/* Descripción */
+.pr__step-desc {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.8125rem;
+  color: #4A4A4A;
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+}
+
+.pr__step:hover .pr__step-desc {
+  color: #6B6B6B;
+}
+
+/* Footer */
+.pr__footer {
+  margin-top: clamp(2rem, 3.5vw, 3rem);
+  display: flex;
+  justify-content: center;
+}
+
+.pr__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #080808;
+  background: #C8A97E;
+  text-decoration: none;
+  padding: 0.875rem 1.875rem;
+  border-radius: 2px;
+}
+
+.pr__cta:hover {
+  background: #D9C09D;
+}
+</style>

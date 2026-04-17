@@ -1,0 +1,146 @@
+---
+// StatsBar.astro — Barra de números clave post-hero
+// Patrón tomado de LGA/MESECI: fondo superficie, grid de 4 stats
+---
+
+<div class="sb" aria-label="Estadísticas Cabo Image">
+  <div class="sb__inner">
+
+    <dl class="sb__grid">
+
+      <div class="sb__item">
+        <dt class="sb__label">Años de experiencia</dt>
+        <dd class="sb__value">12<span class="sb__plus">+</span></dd>
+      </div>
+
+      <div class="sb__divider" aria-hidden="true"></div>
+
+      <div class="sb__item">
+        <dt class="sb__label">Bodas documentadas</dt>
+        <dd class="sb__value">400<span class="sb__plus">+</span></dd>
+      </div>
+
+      <div class="sb__divider" aria-hidden="true"></div>
+
+      <div class="sb__item">
+        <dt class="sb__label">Venues en Los Cabos</dt>
+        <dd class="sb__value">30<span class="sb__plus">+</span></dd>
+      </div>
+
+      <div class="sb__divider" aria-hidden="true"></div>
+
+      <div class="sb__item">
+        <dt class="sb__label">Clientes internacionales</dt>
+        <dd class="sb__value">18</dd>
+        <p class="sb__note">países</p>
+      </div>
+
+    </dl>
+
+  </div>
+</div>
+
+<style>
+/* ── STATS BAR ──────────────────────────────────────────────────────────── */
+
+.sb {
+  background-color: #141414;
+  border-top: 1px solid #242424;
+  border-bottom: 1px solid #242424;
+}
+
+.sb__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .sb__inner { padding: 0 2.5rem; }
+}
+
+.sb__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .sb__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .sb__grid { grid-template-columns: repeat(7, auto); align-items: center; }
+}
+
+/* Item */
+.sb__item {
+  padding: clamp(1.25rem, 2vw, 1.75rem) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+@media (min-width: 1024px) {
+  .sb__item {
+    padding: clamp(1.25rem, 2vw, 1.75rem) clamp(1.5rem, 3vw, 2.5rem);
+    flex: 1;
+  }
+
+  .sb__item:first-child { padding-left: 0; }
+  .sb__item:last-child  { padding-right: 0; }
+}
+
+/* Divider */
+.sb__divider {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .sb__divider {
+    display: block;
+    width: 1px;
+    height: 2.5rem;
+    background-color: #242424;
+    flex-shrink: 0;
+  }
+}
+
+/* Value */
+.sb__value {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-weight: 300;
+  line-height: 1;
+  color: #F5F0EB;
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.1em;
+}
+
+.sb__plus {
+  color: #C8A97E;
+  font-size: 0.6em;
+  font-style: normal;
+}
+
+/* Label */
+.sb__label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  color: #6B6B6B;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  order: -1; /* label arriba del número */
+}
+
+/* Note */
+.sb__note {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  color: #6B6B6B;
+  margin: 0;
+}
+</style>

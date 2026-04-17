@@ -1,0 +1,260 @@
+---
+// FinalCTA.astro — Cierre de página, imagen full-width + CTA poderoso
+// Grid: 55% copy / 45% imagen
+---
+
+<section class="ct" aria-label="Contacta a Cabo Image">
+  <div class="ct__inner">
+
+    <!-- Copy principal -->
+    <div class="ct__copy">
+
+      <p class="ct__eyebrow">Los Cabos, Baja California Sur</p>
+
+      <h2 class="ct__title">
+        Tu historia,<br />
+        <em class="ct__title-em">contada con precisión</em>
+      </h2>
+
+      <div class="ct__rule" aria-hidden="true"></div>
+
+      <p class="ct__body">
+        Cada boda es única. Cada imagen que creamos es el resultado de años de experiencia en Los Cabos, conocimiento profundo de la luz de Baja California y una atención real a los momentos que importan.
+      </p>
+
+      <!-- Datos de contacto rápido -->
+      <address class="ct__contact">
+        <a href="mailto:miguel@caboimage.com" class="ct__contact-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+          <span>miguel@caboimage.com</span>
+        </a>
+        <a href="https://wa.me/526241234567" class="ct__contact-item" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+          </svg>
+          <span>WhatsApp directo</span>
+        </a>
+      </address>
+
+      <!-- CTAs principales -->
+      <div class="ct__actions">
+        <a href="/contact" class="ct__btn ct__btn--primary">
+          Agendar consulta gratuita
+        </a>
+        <a href="/services/wedding-photography" class="ct__btn ct__btn--ghost">
+          Ver paquetes de boda
+        </a>
+      </div>
+
+      <!-- Garantía -->
+      <p class="ct__note">
+        Sin compromiso · Respuesta en menos de 24 horas
+      </p>
+
+    </div>
+
+    <!-- Imagen lateral -->
+    <div class="ct__media" aria-hidden="true">
+      <img
+        src="/images/gallery/weddings/wedding-photographer-los-cabos-20.avif"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        class="ct__img"
+      />
+      <div class="ct__media-overlay"></div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ── FINAL CTA ──────────────────────────────────────────────────────────── */
+
+.ct {
+  background-color: #080808;
+  border-top: 1px solid #1A1A1A;
+  overflow: hidden;
+}
+
+.ct__inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 600px;
+}
+
+@media (min-width: 1024px) {
+  .ct__inner { grid-template-columns: 1.1fr 0.9fr; }
+}
+
+/* Copy */
+.ct__copy {
+  padding: clamp(4rem, 8vw, 6rem) 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .ct__copy { padding: clamp(4rem, 8vw, 7rem) 2.5rem; }
+}
+
+.ct__eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C8A97E;
+  margin: 0 0 1.25rem;
+}
+
+.ct__title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #F5F0EB;
+  margin: 0 0 1.5rem;
+}
+
+.ct__title-em {
+  font-style: italic;
+  color: #C8A97E;
+}
+
+.ct__rule {
+  width: 3rem;
+  height: 1px;
+  background: #C8A97E;
+  opacity: 0.6;
+  margin-bottom: 1.5rem;
+}
+
+.ct__body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1.1vw, 0.9375rem);
+  color: #6B6B6B;
+  line-height: 1.8;
+  margin: 0 0 2rem;
+  max-width: 50ch;
+}
+
+/* Contacto */
+.ct__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-style: normal;
+  margin-bottom: 2rem;
+}
+
+.ct__contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.875rem;
+  color: #6B6B6B;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+.ct__contact-item svg {
+  color: #C8A97E;
+  flex-shrink: 0;
+}
+
+.ct__contact-item:hover {
+  color: #C8A97E;
+}
+
+/* Acciones */
+.ct__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+.ct__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 2px;
+}
+
+.ct__btn--primary {
+  background: #C8A97E;
+  color: #080808;
+  border: 1px solid #C8A97E;
+}
+
+.ct__btn--primary:hover {
+  background: #D9C09D;
+  border-color: #D9C09D;
+}
+
+.ct__btn--ghost {
+  background: transparent;
+  color: #B0A99F;
+  border: 1px solid #242424;
+}
+
+.ct__btn--ghost:hover {
+  border-color: rgba(200,169,126,.4);
+  color: #C8A97E;
+}
+
+/* Nota */
+.ct__note {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.6875rem;
+  color: #3A3A3A;
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+
+/* Media panel */
+.ct__media {
+  position: relative;
+  min-height: 400px;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .ct__media { display: block; }
+}
+
+.ct__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.ct__media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    #080808 0%,
+    rgba(8,8,8,.3) 30%,
+    transparent 100%
+  );
+}
+</style>

@@ -1,58 +1,93 @@
 ---
-// index.astro — Homepage
-// ⚠️  DESIGN PENDING — Shell ready, components to be built out
-// All sections are commented stubs waiting for design implementation
+// index.astro — Homepage Cabo Image (homologado con PROYECTORED / MESECI / LGACONTRAINCENDIOS)
+// Orden: Hero → StatsBar → FeaturedWork → ServicesOverview → ProcesoIndex → AboutSnippet → Testimonials → FAQIndex → FinalCTA
 
-import PageLayout from '../layouts/PageLayout.astro';
+import PageLayout       from '../layouts/PageLayout.astro';
+import Hero             from '../components/home/Hero.astro';
+import StatsBar         from '../components/home/StatsBar.astro';
+import FeaturedWork     from '../components/home/FeaturedWork.astro';
+import ServicesOverview from '../components/home/ServicesOverview.astro';
+import ProcesoIndex     from '../components/home/ProcesoIndex.astro';
+import AboutSnippet     from '../components/home/AboutSnippet.astro';
+import Testimonials     from '../components/home/Testimonials.astro';
+import FAQIndex         from '../components/home/FAQIndex.astro';
+import FinalCTA         from '../components/home/FinalCTA.astro';
 
-// TODO: Import home sections as they are designed
-// import Hero            from '../components/home/Hero.astro';
-// import FeaturedWork    from '../components/home/FeaturedWork.astro';
-// import ServicesOverview from '../components/home/ServicesOverview.astro';
-// import AboutSnippet    from '../components/home/AboutSnippet.astro';
-// import Testimonials    from '../components/home/Testimonials.astro';
+// Schema HomePage + ProfessionalService
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': 'https://caboimage.com/#service',
+  name: 'Cabo Image — Fotografía de Bodas Los Cabos',
+  url: 'https://caboimage.com',
+  image: 'https://caboimage.com/images/og-default.jpg',
+  description:
+    'Fotógrafo profesional de bodas y lifestyle en Los Cabos, México. Más de 12 años de experiencia capturando bodas en Cabo San Lucas, San José del Cabo y toda Baja California Sur.',
+  founder: {
+    '@type': 'Person',
+    name: 'Miguel Ventura',
+    jobTitle: 'Wedding & Lifestyle Photographer',
+    url: 'https://caboimage.com/about',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Cabo San Lucas' },
+    { '@type': 'City', name: 'San José del Cabo' },
+    { '@type': 'State', name: 'Baja California Sur' },
+    { '@type': 'Country', name: 'México' },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios fotográficos',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fotografía de Bodas' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fotografía de Retratos' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fotografía Inmobiliaria' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fotografía de Arquitectura' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fine Art Photography' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fotografía Publicitaria' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Fotografía Turística Comercial' } },
+    ],
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5',
+    reviewCount: '120',
+  },
+};
 ---
 
 <PageLayout
-  title="Los Cabos Wedding Photographer | Cabo Image by Miguel Ventura"
-  description="Award-winning wedding and portrait photographer based in Los Cabos, Mexico. Serving Cabo San Lucas, San José del Cabo, and destination weddings throughout Baja California Sur."
+  title="Fotógrafo de Bodas en Los Cabos | Cabo Image — Miguel Ventura"
+  description="Fotógrafo profesional de bodas y lifestyle en Los Cabos, México. Más de 12 años capturando bodas en Cabo San Lucas, San José del Cabo y Baja California Sur."
   headerTransparent={true}
+  schema={homeSchema}
 >
 
-  <!--
-    ╔══════════════════════════════════════════════════════════════════╗
-    ║   HOMEPAGE — DESIGN IN PROGRESS                                  ║
-    ║   Section order:                                                 ║
-    ║   1. Hero (full-screen image + headline)                         ║
-    ║   2. Featured Work (6–9 best images, masonry or grid)            ║
-    ║   3. Services Overview (7 service cards)                         ║
-    ║   4. About Snippet (Miguel + photo + link)                       ║
-    ║   5. Testimonials Carousel                                       ║
-    ║   6. Instagram Feed (latest 6–9 posts)                           ║
-    ║   7. Final CTA (book a consultation)                             ║
-    ╚══════════════════════════════════════════════════════════════════╝
-  -->
+  <!-- 1. Hero full-viewport, 2 columnas, badge + headline editorial -->
+  <Hero />
 
-  <!-- TEMPORARY PLACEHOLDER -->
-  <section class="min-h-screen flex items-center justify-center">
-    <div class="text-center px-6">
-      <p class="eyebrow mb-4">Coming Soon</p>
-      <h1 class="font-serif text-display-lg text-cabo-white mb-6">
-        Cabo Image
-      </h1>
-      <p class="font-serif text-xl text-cabo-muted italic mb-2">
-        by Miguel Ventura
-      </p>
-      <p class="text-cabo-subtle font-sans text-sm tracking-wider mb-10">
-        Wedding &amp; Lifestyle Photographer · Los Cabos, Mexico
-      </p>
-      <a
-        href="/contact"
-        class="inline-flex items-center gap-2 px-8 py-4 border border-cabo-gold text-cabo-gold text-xs tracking-widest uppercase font-sans hover:bg-cabo-gold hover:text-cabo-black transition-all duration-300"
-      >
-        Book a Consultation
-      </a>
-    </div>
-  </section>
+  <!-- 2. Barra de estadísticas: años, bodas, venues, países -->
+  <StatsBar />
+
+  <!-- 3. Portafolio destacado: grid asimétrico 6 fotos -->
+  <FeaturedWork />
+
+  <!-- 4. Grid de 7 servicios con subcategorías -->
+  <ServicesOverview />
+
+  <!-- 5. Cómo trabajamos: 4 pasos -->
+  <ProcesoIndex />
+
+  <!-- 6. About Miguel: 2 columnas, credenciales, CTAs -->
+  <AboutSnippet />
+
+  <!-- 7. Testimonios de clientes: 3 cards enriquecidas -->
+  <Testimonials />
+
+  <!-- 8. FAQ acordeón: 6 preguntas, JSON-LD FAQPage -->
+  <FAQIndex />
+
+  <!-- 9. CTA de cierre: grid 2 col, contacto + imagen -->
+  <FinalCTA />
 
 </PageLayout>
