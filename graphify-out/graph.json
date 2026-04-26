@@ -1,0 +1,109 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "astro.config.mjs",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/astro.config.mjs",
+      "source_location": "L1",
+      "id": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_astro_config_mjs",
+      "community": 1,
+      "norm_label": "astro.config.mjs"
+    },
+    {
+      "label": "tailwind.config.mjs",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/tailwind.config.mjs",
+      "source_location": "L1",
+      "id": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_tailwind_config_mjs",
+      "community": 2,
+      "norm_label": "tailwind.config.mjs"
+    },
+    {
+      "label": "env.d.ts",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/env.d.ts",
+      "source_location": "L1",
+      "id": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_env_d_ts",
+      "community": 3,
+      "norm_label": "env.d.ts"
+    },
+    {
+      "label": "config.ts",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/content/config.ts",
+      "source_location": "L1",
+      "id": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_content_config_ts",
+      "community": 4,
+      "norm_label": "config.ts"
+    },
+    {
+      "label": "sitemap.xml.ts",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/pages/sitemap.xml.ts",
+      "source_location": "L1",
+      "id": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_pages_sitemap_xml_ts",
+      "community": 0,
+      "norm_label": "sitemap.xml.ts"
+    },
+    {
+      "label": "sitemap()",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/pages/sitemap.xml.ts",
+      "source_location": "L46",
+      "id": "sitemap_xml_sitemap",
+      "community": 0,
+      "norm_label": "sitemap()"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/pages/sitemap.xml.ts",
+      "source_location": "L62",
+      "id": "sitemap_xml_get",
+      "community": 0,
+      "norm_label": "get()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/pages/sitemap.xml.ts",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_pages_sitemap_xml_ts",
+      "_tgt": "sitemap_xml_sitemap",
+      "source": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_pages_sitemap_xml_ts",
+      "target": "sitemap_xml_sitemap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/pages/sitemap.xml.ts",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_src": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_pages_sitemap_xml_ts",
+      "_tgt": "sitemap_xml_get",
+      "source": "users_frankoropeza_documents_claude_projects_caboimage_caboimage_astro_src_pages_sitemap_xml_ts",
+      "target": "sitemap_xml_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "/Users/frankoropeza/Documents/Claude/Projects/CABOIMAGE/caboimage-astro/src/pages/sitemap.xml.ts",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_src": "sitemap_xml_get",
+      "_tgt": "sitemap_xml_sitemap",
+      "source": "sitemap_xml_sitemap",
+      "target": "sitemap_xml_get",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}
