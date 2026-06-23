@@ -22,11 +22,10 @@ jobs:
       - name: Ensure Pages project exists
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: npx -y wrangler@3 pages project create caboimage --production-branch=main 2>/dev/null || true
+        run: CLOUDFLARE_ACCOUNT_ID=711c2e12a6bd9cec3ec5c6a7633f147c npx -y wrangler@3 pages project create caboimage --production-branch=main 2>/dev/null || true
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: "711c2e12a6bd9cec3ec5c6a7633f147c"
           workingDirectory: caboimage-astro
           command: pages deploy dist --project-name=caboimage --branch=main --commit-dirty=true
